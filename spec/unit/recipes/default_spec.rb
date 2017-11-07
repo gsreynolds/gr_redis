@@ -23,12 +23,25 @@ describe 'gr_redis::default' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:
       # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
-      runner = ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04', step_into: %w(gr_redis_source_installation))
+      runner = ChefSpec::ServerRunner.new(platform: 'ubuntu',
+                                          version: '16.04',
+                                          step_into: %w(gr_redis_source_installation)
+                                         )
       runner.converge(described_recipe)
     end
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
+
+    it 'creates gr redis source installation' do
+      expect(chef_run).to create_gr_redis_source_installation('4.0.2').with(
+        checksum: 'b1a0915dbc91b979d06df1977fe594c3fa9b189f1f3d38743a2948c9f7634813'
+      )
+    end
+
+    # it 'downloads redis' do
+    #   expect(chef_run).to create_remote_file('/opt/redis/redis-4.0.2.tar.gz')
+    # end
   end
 end
