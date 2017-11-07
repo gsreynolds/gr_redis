@@ -16,6 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Update apt, no-op on non-debian family
+apt_update 'apt_update' do
+  frequency 86400
+  action :periodic
+end
+
 gr_redis_source_installation '4.0.2' do
   action :create
 end
