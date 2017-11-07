@@ -41,11 +41,25 @@ action :create do
     # notifies :run, 'execute[make-test-redis]', :immediately
     action :run
   end
+
+  %w(redis-server redis-cli).each do |bin|
+    link "/usr/local/bin/#{bin}" do
+      to "#{new_resource.install_dir}/redis-#{new_resource.version}/src/#{bin}"
+      action :create
+    end
+  end
 end
 
 action :remove do
   directory new_resource.install_dir do
     recursive true
     action :delete
+  end
+
+  %w(redis-server redis-cli).each do |bin|
+    link "/usr/local/bin/#{bin}" do
+      only_if { File.symlink?("/usr/local/bin/#{bin}") }
+      action :delete
+    end
   end
 end
