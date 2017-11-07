@@ -27,9 +27,9 @@ gr_redis_source_installation '4.0.2' do
   action :create
 end
 
-# gr_redis_source_installation '4.0.2' do
-#   action :remove
-# end
+gr_redis_configuration '6379' do
+  action :create
+end
 
 # make test requires tcl package
 package 'tcl'

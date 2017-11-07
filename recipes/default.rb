@@ -20,3 +20,7 @@ gr_redis_source_installation node['gr_redis']['version'] do
   checksum node['gr_redis']['checksum']
   action :create
 end
+
+gr_redis_configuration node['gr_redis']['port'] do
+  action :create
+end
