@@ -9,14 +9,11 @@ chef_version '>= 12.5' if respond_to?(:chef_version)
 
 depends 'build-essential'
 
-# The `issues_url` points to the location where issues for this cookbook are
-# tracked.  A `View Issues` link will be displayed on this cookbook's page when
-# uploaded to a Supermarket.
-#
-# issues_url 'https://github.com/gsreynolds/gr_redis/issues'
+supports 'debian'
+supports 'ubuntu'
+supports 'redhat'
+supports 'centos'
+supports 'fedora'
 
-# The `source_url` points to the development repository for this cookbook.  A
-# `View Source` link will be displayed on this cookbook's page when uploaded to
-# a Supermarket.
-#
-# source_url 'https://github.com/gsreynolds/gr_redis'
+issues_url 'https://github.com/gsreynolds/gr_redis/issues'
+source_url 'https://github.com/gsreynolds/gr_redis'
