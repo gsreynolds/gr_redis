@@ -28,6 +28,7 @@ gr_redis_source_installation '4.0.2' do
 end
 
 gr_redis_configuration '6379' do
+  requirepass 'iloverandompasswordsbutthiswilldo'
   action :create
 end
 

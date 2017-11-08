@@ -6,6 +6,8 @@ property :config_dir, String, default: '/etc/redis'
 property :data_dir, String, default: '/var/redis'
 property :redis_user, String, default: 'redis'
 property :redis_group, String, default: 'redis'
+property :requirepass, String, sensitive: true, default: ''
+property :restart_on_conf_change, [true, false], default: true
 
 action :create do
   group new_resource.redis_group do
@@ -41,7 +43,15 @@ action :create do
     owner 'root'
     group 'root'
     mode '0644'
-    variables(port: new_resource.port, bind: new_resource.bind)
+    variables(
+      port: new_resource.port,
+      bind: new_resource.bind,
+      supervised: 'systemd',
+      data_dir: new_resource.data_dir,
+      requirepass: new_resource.requirepass
+    )
+    sensitive true
+    notifies :restart, "service[redis-#{new_resource.port}]", :delayed if new_resource.restart_on_conf_change
   end
 
   # example redis systemd unit file from https://gist.github.com/hackedunit/14690b6174708d3e83593ce1cdfb4ed8

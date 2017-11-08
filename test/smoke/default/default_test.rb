@@ -61,7 +61,7 @@ control 'redis-configuration' do
     it { should be_running }
   end
 
-  describe command('/usr/local/bin/redis-cli ping') do
+  describe command('/usr/local/bin/redis-cli -a iloverandompasswordsbutthiswilldo ping') do
     its('exit_status') { should eq 0 }
     its(:stdout) { should match 'PONG' }
   end
