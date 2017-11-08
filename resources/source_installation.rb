@@ -57,7 +57,7 @@ action :remove do
 
   redis_bins.each do |bin|
     link "/usr/local/bin/#{bin}" do
-      only_if { File.symlink?("/usr/local/bin/#{bin}") }
+      only_if { ::File.symlink?("/usr/local/bin/#{bin}") }
       action :delete
     end
   end

@@ -41,7 +41,7 @@ This cookbook is tested on the following platforms:
 #### Actions
 
 - `create` - (default) Creates Redis instance on the specified port.
-- `remove` - Removes the Redis instance.
+- `remove` - Removes the Redis instance configuration (but **does not** remove database dumps or logs).
 
 #### Properties
 
@@ -89,6 +89,7 @@ KITCHEN_LOCAL_YAML=.kitchen.dokken.yml chef exec kitchen test
 - The cookbook currently assumes that only one version of Redis will be installed on a node and used for all Redis instances.
 - The cookbook currently only has configuration properties for a subset for the available options in `redis.conf`.
 - The cookbook currently does not configure [redis-sentinel](https://redis.io/topics/sentinel) or [cluster mode](https://redis.io/topics/cluster-tutorial).
+- The cookbook currently does not configure log rotation.
 
 ## License & Authors
 

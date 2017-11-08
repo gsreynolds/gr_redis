@@ -75,10 +75,7 @@ action :create do
     notifies :restart, "service[#{instance_name}]", :delayed if new_resource.restart_on_conf_change
   end
 
-  execute 'systemctl-daemon-reload' do
-    command '/bin/systemctl --system daemon-reload'
-    action :nothing
-  end
+  systemd_daemon_reload
 
   service instance_name do
     supports status: true
@@ -87,16 +84,20 @@ action :create do
 end
 
 action :remove do
+  # Don't delete data or logs
+
   service instance_name do
     action [:stop, :disable]
   end
 
-  file instance_conf do
+  file instance_service_unit do
+    notifies :run, 'execute[systemctl-daemon-reload]', :immediately
     action :delete
   end
 
-  directory instance_data_dir do
-    recursive true
+  systemd_daemon_reload
+
+  file instance_conf do
     action :delete
   end
 end
@@ -120,5 +121,12 @@ action_class do
 
   def instance_logfile
     ::File.join(new_resource.log_dir, "#{instance_name}.log")
+  end
+
+  def systemd_daemon_reload
+    execute 'systemctl-daemon-reload' do
+      command '/bin/systemctl --system daemon-reload'
+      action :nothing
+    end
   end
 end
