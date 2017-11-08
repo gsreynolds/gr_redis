@@ -25,7 +25,8 @@ describe 'gr_redis::default' do
       # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
       runner = ChefSpec::ServerRunner.new(platform: 'ubuntu',
                                           version: '16.04',
-                                          step_into: %w(gr_redis_source_installation gr_redis_configuration)
+                                          step_into: %w(gr_redis_source_installation
+                                                        gr_redis_configuration)
                                          )
       runner.converge(described_recipe)
     end
@@ -35,21 +36,11 @@ describe 'gr_redis::default' do
     end
 
     it 'creates gr redis source installation' do
-      expect(chef_run).to create_gr_redis_source_installation('4.0.2').with(
-        checksum: 'b1a0915dbc91b979d06df1977fe594c3fa9b189f1f3d38743a2948c9f7634813'
-      )
+      expect(chef_run).to create_gr_redis_source_installation('4.0.2')
     end
-
-    # it 'downloads redis' do
-    #   expect(chef_run).to create_remote_file('/opt/redis/redis-4.0.2.tar.gz')
-    # end
 
     it 'creates gr redis configuration' do
       expect(chef_run).to create_gr_redis_configuration('6379')
     end
-
-    # it 'creates redis config for default port' do
-    #   expect(chef_run).to create_template('/etc/redis/6379.conf')
-    # end
   end
 end
