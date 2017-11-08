@@ -27,14 +27,14 @@ gr_redis_source_installation '4.0.2' do
   action :create
 end
 
+# Test default redis server configuration on default port
 gr_redis_configuration '6379' do
-  requirepass 'iloverandompasswordsbutthiswilldo'
   action :create
 end
 
+# Test second redis server configuration on non-default port with auth
 gr_redis_configuration '6380' do
-  requirepass 'test'
-  data_dir '/var/redis-2'
+  requirepass 'iloverandompasswordsbutthiswilldo'
   action :create
 end
 

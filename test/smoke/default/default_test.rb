@@ -34,6 +34,7 @@ control 'redis-installation' do
   # end
 end
 
+# FIXME: DRY port examples
 control 'redis-configuration' do
   title 'Redis Server: Configuration for port 6379'
   desc  ''
@@ -41,20 +42,24 @@ control 'redis-configuration' do
   describe directory('/etc/redis') do
     it { should exist }
     it { should be_owned_by 'root' }
-    # FIXME: permission tests
+    it { should be_grouped_into 'redis' }
+    its('mode') { should cmp '0750' }
   end
 
-  describe file('/etc/redis/6379.conf') do
+  %w(/var/lib/redis/redis-6379 /var/log/redis).each do |dir|
+    describe directory(dir) do
+      it { should exist }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'redis' }
+      its('mode') { should cmp '0770' }
+    end
+  end
+
+  describe file('/etc/redis/redis-6379.conf') do
     it { should exist }
     it { should be_owned_by 'root' }
-    # FIXME: permission & content tests
-  end
-
-  describe directory('/var/redis') do
-    it { should exist }
-    it { should be_owned_by 'redis' }
-    it { should be_grouped_into 'redis' }
-    its('mode') { should cmp '0700' }
+    it { should be_readable.by_user 'redis' }
+    its('mode') { should cmp '0640' }
   end
 
   describe service('redis-6379') do
@@ -63,46 +68,50 @@ control 'redis-configuration' do
     it { should be_running }
   end
 
-  describe command('/usr/local/bin/redis-cli -a iloverandompasswordsbutthiswilldo ping') do
+  describe command('/usr/local/bin/redis-cli ping') do
     its('exit_status') { should eq 0 }
     its(:stdout) { should match 'PONG' }
   end
 
-  describe command('/usr/local/bin/redis-cli -a iloverandompasswordsbutthiswilldo save') do
+  describe command('/usr/local/bin/redis-cli save') do
     its('exit_status') { should eq 0 }
     its(:stdout) { should match 'OK' }
   end
 
-  describe file('/var/log/redis-6379.log') do
+  describe file('/var/log/redis/redis-6379.log') do
     it { should exist }
   end
 
-  describe file('/var/redis/dump.rdb') do
+  describe file('/var/lib/redis/redis-6379/dump.rdb') do
     it { should exist }
   end
 end
 
 control 'redis-configuration2' do
-  title 'Redis Server: Configuration for port 6380'
+  title 'Redis Server: Configuration for port 6380 with requirepass'
   desc  ''
 
   describe directory('/etc/redis') do
     it { should exist }
     it { should be_owned_by 'root' }
-    # FIXME: permission tests
+    it { should be_grouped_into 'redis' }
+    its('mode') { should cmp '0750' }
   end
 
-  describe file('/etc/redis/6380.conf') do
+  %w(/var/lib/redis/redis-6380 /var/log/redis).each do |dir|
+    describe directory(dir) do
+      it { should exist }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'redis' }
+      its('mode') { should cmp '0770' }
+    end
+  end
+
+  describe file('/etc/redis/redis-6380.conf') do
     it { should exist }
     it { should be_owned_by 'root' }
-    # FIXME: permission & content tests
-  end
-
-  describe directory('/var/redis-2') do
-    it { should exist }
-    it { should be_owned_by 'redis' }
-    it { should be_grouped_into 'redis' }
-    its('mode') { should cmp '0700' }
+    it { should be_readable.by_user 'redis' }
+    its('mode') { should cmp '0640' }
   end
 
   describe service('redis-6380') do
@@ -111,21 +120,21 @@ control 'redis-configuration2' do
     it { should be_running }
   end
 
-  describe command('/usr/local/bin/redis-cli -p 6380 -a test ping') do
+  describe command('/usr/local/bin/redis-cli -p 6380 -a iloverandompasswordsbutthiswilldo ping') do
     its('exit_status') { should eq 0 }
     its(:stdout) { should match 'PONG' }
   end
 
-  describe command('/usr/local/bin/redis-cli -p 6380 -a test save') do
+  describe command('/usr/local/bin/redis-cli -p 6380 -a iloverandompasswordsbutthiswilldo save') do
     its('exit_status') { should eq 0 }
     its(:stdout) { should match 'OK' }
   end
 
-  describe file('/var/log/redis-6380.log') do
+  describe file('/var/log/redis/redis-6380.log') do
     it { should exist }
   end
 
-  describe file('/var/redis-2/dump.rdb') do
+  describe file('/var/lib/redis/redis-6380/dump.rdb') do
     it { should exist }
   end
 end
