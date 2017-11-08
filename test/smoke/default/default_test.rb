@@ -35,8 +35,9 @@ control 'redis-installation' do
 end
 
 control 'redis-configuration' do
-  title 'Redis Server: Configuration'
+  title 'Redis Server: Configuration for port 6379'
   desc  ''
+
   describe directory('/etc/redis') do
     it { should exist }
     it { should be_owned_by 'root' }
@@ -52,7 +53,8 @@ control 'redis-configuration' do
   describe directory('/var/redis') do
     it { should exist }
     it { should be_owned_by 'redis' }
-    # FIXME: permission tests
+    it { should be_grouped_into 'redis' }
+    its('mode') { should cmp '0700' }
   end
 
   describe service('redis-6379') do
@@ -64,5 +66,66 @@ control 'redis-configuration' do
   describe command('/usr/local/bin/redis-cli -a iloverandompasswordsbutthiswilldo ping') do
     its('exit_status') { should eq 0 }
     its(:stdout) { should match 'PONG' }
+  end
+
+  describe command('/usr/local/bin/redis-cli -a iloverandompasswordsbutthiswilldo save') do
+    its('exit_status') { should eq 0 }
+    its(:stdout) { should match 'OK' }
+  end
+
+  describe file('/var/log/redis-6379.log') do
+    it { should exist }
+  end
+
+  describe file('/var/redis/dump.rdb') do
+    it { should exist }
+  end
+end
+
+control 'redis-configuration2' do
+  title 'Redis Server: Configuration for port 6380'
+  desc  ''
+
+  describe directory('/etc/redis') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    # FIXME: permission tests
+  end
+
+  describe file('/etc/redis/6380.conf') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    # FIXME: permission & content tests
+  end
+
+  describe directory('/var/redis-2') do
+    it { should exist }
+    it { should be_owned_by 'redis' }
+    it { should be_grouped_into 'redis' }
+    its('mode') { should cmp '0700' }
+  end
+
+  describe service('redis-6380') do
+    it { should be_installed }
+    it { should be_enabled }
+    it { should be_running }
+  end
+
+  describe command('/usr/local/bin/redis-cli -p 6380 -a test ping') do
+    its('exit_status') { should eq 0 }
+    its(:stdout) { should match 'PONG' }
+  end
+
+  describe command('/usr/local/bin/redis-cli -p 6380 -a test save') do
+    its('exit_status') { should eq 0 }
+    its(:stdout) { should match 'OK' }
+  end
+
+  describe file('/var/log/redis-6380.log') do
+    it { should exist }
+  end
+
+  describe file('/var/redis-2/dump.rdb') do
+    it { should exist }
   end
 end

@@ -31,7 +31,7 @@ action :create do
   directory new_resource.data_dir do
     owner new_resource.redis_user
     group new_resource.redis_group
-    mode '0755'
+    mode '0700'
     recursive true
     action :create
   end

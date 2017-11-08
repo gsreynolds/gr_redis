@@ -32,5 +32,11 @@ gr_redis_configuration '6379' do
   action :create
 end
 
+gr_redis_configuration '6380' do
+  requirepass 'test'
+  data_dir '/var/redis-2'
+  action :create
+end
+
 # make test requires tcl package
 package 'tcl'
