@@ -55,8 +55,35 @@ This cookbook is tested on the following platforms:
 - `requirepass` - Password to require clients to authenticate with using the [AUTH command](https://redis.io/commands/auth) (default: ).
 - `restart_on_conf_change` - Control whether Redis should be restarted on configuration changes (default: `true`).
 
+## Usage
+
+### Resources
+
+The `gr_redis_source_installation` and `gr_redis_configuration` resources can be included in your cookbook. Examples can be found in the `redis_test` cookbook (`test/cookbooks/redis_test/recipes/default.rb`).
+
+### Recipe
+
+The `gr_redis::default` recipe simply calls the `gr_redis_source_installation` and `gr_redis_configuration` resources to create a single Redis instance. Attributes for port, version and SHA256 download checksum are provided for convenience.
+
+```ruby
+include_recipe 'gr_redis::default'
+```
+
 ## Testing
 
+Tests require a ChefDK installation and can be run using the Delivery CLI tool.
+
+```shell
+delivery local all
+```
+Integration tests can be performed using Vagrant & VirtualBox:
+```shell
+chef exec kitchen test
+```
+or Docker:
+```shell
+KITCHEN_LOCAL_YAML=.kitchen.dokken.yml chef exec kitchen test
+```
 
 ## Known Limitations
 - The cookbook currently assumes that only one version of Redis will be installed on a node and used for all Redis instances.
