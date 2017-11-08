@@ -1,10 +1,9 @@
 default_action :create
 
-# property :port, Integer, required: true, name_property: true # REDISPORT
 property :version, String, required: true, name_property: true # Redis version to install
 property :checksum, String, required: true # sha256 checksum of download
 property :install_dir, String, default: '/opt/redis'
-property :download_url, String, default: 'http://download.redis.io/releases'
+property :download_source, String, default: 'http://download.redis.io/releases'
 
 action :create do
   build_essential 'install_packages'
@@ -17,8 +16,8 @@ action :create do
     action :create
   end
 
-  remote_file "#{new_resource.install_dir}/redis-#{new_resource.version}.tar.gz" do
-    source "#{new_resource.download_url}/redis-#{new_resource.version}.tar.gz"
+  remote_file "#{new_resource.install_dir}/#{download_filename}" do
+    source download_url
     owner 'root'
     group 'root'
     checksum new_resource.checksum
@@ -27,24 +26,24 @@ action :create do
   end
 
   execute 'extract-redis' do
-    command "tar -xvzf redis-#{new_resource.version}.tar.gz"
+    command "tar -xvzf #{download_filename}"
     cwd new_resource.install_dir
     # notifies :run, 'execute[make-redis]', :immediately
-    creates "#{new_resource.install_dir}/redis-#{new_resource.version}"
+    creates extracted_path
     action :run
   end
 
   execute 'make-redis' do
     command 'make'
-    cwd "#{new_resource.install_dir}/redis-#{new_resource.version}"
-    creates "#{new_resource.install_dir}/redis-#{new_resource.version}/src/redis-server"
+    cwd extracted_path
+    creates "#{extracted_path}/src/redis-server"
     # notifies :run, 'execute[make-test-redis]', :immediately
     action :run
   end
 
-  %w(redis-server redis-cli).each do |bin|
+  redis_bins.each do |bin|
     link "/usr/local/bin/#{bin}" do
-      to "#{new_resource.install_dir}/redis-#{new_resource.version}/src/#{bin}"
+      to "#{extracted_path}/src/#{bin}"
       action :create
     end
   end
@@ -56,10 +55,32 @@ action :remove do
     action :delete
   end
 
-  %w(redis-server redis-cli).each do |bin|
+  redis_bins.each do |bin|
     link "/usr/local/bin/#{bin}" do
       only_if { File.symlink?("/usr/local/bin/#{bin}") }
       action :delete
     end
+  end
+end
+
+action_class do
+  def version_slug
+    "redis-#{new_resource.version}"
+  end
+
+  def download_url
+    "#{new_resource.download_source}/#{download_filename}"
+  end
+
+  def download_filename
+    "#{version_slug}.tar.gz"
+  end
+
+  def extracted_path
+    "#{new_resource.install_dir}/#{version_slug}"
+  end
+
+  def redis_bins
+    %w(redis-server redis-cli)
   end
 end
