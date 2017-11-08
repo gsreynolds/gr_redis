@@ -1,13 +1,13 @@
 default_action :create
 
-property :port, String, required: true, name_property: true # REDISPORT
+property :port, String, required: true, name_property: true
 property :bind, String, default: '127.0.0.1'
 property :config_dir, String, default: '/etc/redis'
-property :data_dir, String, default: '/var/lib/redis'
+property :data_dir_prefix, String, default: '/var/lib/redis'
 property :log_dir, String, default: '/var/log/redis'
 property :redis_user, String, default: 'redis'
 property :redis_group, String, default: 'redis'
-property :requirepass, String, sensitive: true, default: ''
+property :requirepass, String, sensitive: true, default: '' # FIXME: type, default & coerce
 property :restart_on_conf_change, [true, false], default: true
 
 action :create do
@@ -56,7 +56,6 @@ action :create do
     notifies :restart, "service[#{instance_name}]", :delayed if new_resource.restart_on_conf_change
   end
 
-  # example redis systemd unit file from https://gist.github.com/hackedunit/14690b6174708d3e83593ce1cdfb4ed8
   # FIXME: requirepass in service unit
   template instance_service_unit do
     cookbook 'gr_redis'
@@ -116,7 +115,7 @@ action_class do
   end
 
   def instance_data_dir
-    ::File.join(new_resource.data_dir, instance_name)
+    ::File.join(new_resource.data_dir_prefix, instance_name)
   end
 
   def instance_logfile

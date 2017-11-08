@@ -1,14 +1,14 @@
 default_action :create
 
-property :version, String, required: true, name_property: true # Redis version to install
-property :checksum, String, required: true # sha256 checksum of download
-property :install_dir, String, default: '/opt/redis'
+property :version, String, required: true, name_property: true
+property :checksum, String, required: true
+property :install_root_prefix, String, default: '/opt/redis'
 property :download_source, String, default: 'http://download.redis.io/releases'
 
 action :create do
   build_essential 'install_packages'
 
-  directory new_resource.install_dir do
+  directory new_resource.install_root_prefix do
     owner 'root'
     group 'root'
     mode '0755'
@@ -16,7 +16,7 @@ action :create do
     action :create
   end
 
-  remote_file "#{new_resource.install_dir}/#{download_filename}" do
+  remote_file "#{new_resource.install_root_prefix}/#{download_filename}" do
     source download_url
     owner 'root'
     group 'root'
@@ -27,7 +27,7 @@ action :create do
 
   execute 'extract-redis' do
     command "tar -xvzf #{download_filename}"
-    cwd new_resource.install_dir
+    cwd new_resource.install_root_prefix
     # notifies :run, 'execute[make-redis]', :immediately
     creates extracted_path
     action :run
@@ -50,7 +50,7 @@ action :create do
 end
 
 action :remove do
-  directory new_resource.install_dir do
+  directory new_resource.install_root_prefix do
     recursive true
     action :delete
   end
@@ -77,7 +77,7 @@ action_class do
   end
 
   def extracted_path
-    "#{new_resource.install_dir}/#{version_slug}"
+    "#{new_resource.install_root_prefix}/#{version_slug}"
   end
 
   def redis_bins

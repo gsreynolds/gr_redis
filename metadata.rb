@@ -2,8 +2,8 @@ name 'gr_redis'
 maintainer 'Gavin Reynolds'
 maintainer_email 'gsreynolds@gmail.com'
 license 'Apache-2.0'
-description 'Installs/Configures gr_redis'
-long_description 'Installs/Configures gr_redis'
+description 'Installs/Configures Redis'
+long_description 'Installs/Configures Redis'
 version '0.1.0'
 chef_version '>= 12.5' if respond_to?(:chef_version)
 
