@@ -64,7 +64,7 @@ action :create do
     mode '0600'
     content "REQUIREPASS=#{new_resource.requirepass}"
     sensitive true
-    action :create if !new_resource.requirepass.empty?
+    action :create unless new_resource.requirepass.empty?
     action :delete if new_resource.requirepass.empty?
   end
 
