@@ -51,7 +51,18 @@ control 'redis-configuration' do
 
   describe directory('/var/redis') do
     it { should exist }
-    it { should be_owned_by 'root' }
+    it { should be_owned_by 'redis' }
     # FIXME: permission tests
+  end
+
+  describe service('redis-6379') do
+    it { should be_installed }
+    it { should be_enabled }
+    it { should be_running }
+  end
+
+  describe command('/usr/local/bin/redis-cli ping') do
+    its('exit_status') { should eq 0 }
+    its(:stdout) { should match 'PONG' }
   end
 end
