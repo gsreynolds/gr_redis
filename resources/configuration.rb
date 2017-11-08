@@ -56,22 +56,33 @@ action :create do
     notifies :restart, "service[#{instance_name}]", :delayed if new_resource.restart_on_conf_change
   end
 
-  # FIXME: requirepass in service unit
+  # Store auth pass in EnvironmentFile loaded in SystemD service unit - used for redis-cli shutdown command.
+  # Alternative would be to rely on SIGTERM from SystemD to shutdown and avoid the password entirely.
+  file instance_env_file do
+    owner 'root'
+    group 'root'
+    mode '0600'
+    content "REQUIREPASS=#{new_resource.requirepass}"
+    sensitive true
+    action :create if !new_resource.requirepass.empty?
+    action :delete if new_resource.requirepass.empty?
+  end
+
   template instance_service_unit do
     cookbook 'gr_redis'
     source 'redis.service.erb'
     owner 'root'
     group 'root'
-    mode '0600'
+    mode '0644'
     notifies :run, 'execute[systemctl-daemon-reload]', :immediately
     variables(
       conf: instance_conf,
       redis_user: new_resource.redis_user,
       redis_group: new_resource.redis_group,
       port: new_resource.port,
-      requirepass: new_resource.requirepass
+      env_file: instance_env_file,
+      authenabled: !new_resource.requirepass.empty?
     )
-    sensitive true
     notifies :restart, "service[#{instance_name}]", :delayed if new_resource.restart_on_conf_change
   end
 
@@ -113,6 +124,10 @@ action_class do
 
   def instance_conf
     ::File.join(new_resource.config_dir, "#{instance_name}.conf")
+  end
+
+  def instance_env_file
+    ::File.join(new_resource.config_dir, "#{instance_name}.env")
   end
 
   def instance_data_dir

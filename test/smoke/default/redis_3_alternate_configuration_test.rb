@@ -25,6 +25,20 @@ control 'redis-3-configuration' do
     its('mode') { should cmp '0640' }
   end
 
+  describe file('/etc/systemd/system/redis-6380.service') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    its('mode') { should cmp '0644' }
+  end
+
+  describe file('/etc/redis/redis-6380.env') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    its('mode') { should cmp '0600' }
+  end
+
   describe service('redis-6380') do
     it { should be_installed }
     it { should be_enabled }

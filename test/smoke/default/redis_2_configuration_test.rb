@@ -26,6 +26,17 @@ control 'redis-2-configuration' do
     its('mode') { should cmp '0640' }
   end
 
+  describe file('/etc/systemd/system/redis-6379.service') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    its('mode') { should cmp '0644' }
+  end
+
+  describe file('/etc/redis/redis-6379.env') do
+    it { should_not exist }
+  end
+
   describe service('redis-6379') do
     it { should be_installed }
     it { should be_enabled }
