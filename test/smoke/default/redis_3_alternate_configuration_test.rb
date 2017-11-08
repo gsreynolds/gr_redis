@@ -1,0 +1,51 @@
+control 'redis-3-configuration' do
+  title 'Redis Server: Alternate configuration for port 6380 with requirepass'
+  desc  ''
+
+  describe directory('/etc/redis') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'redis' }
+    its('mode') { should cmp '0750' }
+  end
+
+  %w(/var/lib/redis/redis-6380 /var/log/redis).each do |dir|
+    describe directory(dir) do
+      it { should exist }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'redis' }
+      its('mode') { should cmp '0770' }
+    end
+  end
+
+  describe file('/etc/redis/redis-6380.conf') do
+    it { should exist }
+    it { should be_owned_by 'root' }
+    it { should be_readable.by_user 'redis' }
+    its('mode') { should cmp '0640' }
+  end
+
+  describe service('redis-6380') do
+    it { should be_installed }
+    it { should be_enabled }
+    it { should be_running }
+  end
+
+  describe command('/usr/local/bin/redis-cli -p 6380 -a iloverandompasswordsbutthiswilldo ping') do
+    its('exit_status') { should eq 0 }
+    its(:stdout) { should match 'PONG' }
+  end
+
+  describe command('/usr/local/bin/redis-cli -p 6380 -a iloverandompasswordsbutthiswilldo save') do
+    its('exit_status') { should eq 0 }
+    its(:stdout) { should match 'OK' }
+  end
+
+  describe file('/var/log/redis/redis-6380.log') do
+    it { should exist }
+  end
+
+  describe file('/var/lib/redis/redis-6380/dump.rdb') do
+    it { should exist }
+  end
+end
