@@ -61,7 +61,9 @@ This cookbook is tested on the following platforms:
 
 ### Resources
 
-The `gr_redis_source_installation` and `gr_redis_instance` resources can be included in your cookbook. Examples can be found in the `redis_test` cookbook (`test/cookbooks/redis_test/recipes/default.rb`).
+The `gr_redis_source_installation` and `gr_redis_instance` resources can be included in your cookbook. Multiple instances of Redis can be created on different ports on the same node.
+
+Examples can be found in the `redis_test` cookbook (`test/cookbooks/redis_test/recipes/default.rb`).
 
 ### Recipe
 
