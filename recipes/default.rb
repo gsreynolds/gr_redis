@@ -21,6 +21,6 @@ gr_redis_source_installation node['gr_redis']['version'] do
   action :create
 end
 
-gr_redis_configuration node['gr_redis']['port'] do
+gr_redis_instance node['gr_redis']['port'] do
   action :create
 end

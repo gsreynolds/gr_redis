@@ -36,7 +36,7 @@ This cookbook is tested on the following platforms:
 - `install_root_prefix` - Path to download Redis to and extract into (default: `/opt/redis`).
 - `download_source` - URL for Redis release mirror (default: `http://download.redis.io/releases`)
 
-### gr_redis_configuration
+### gr_redis_instance
 
 #### Actions
 
@@ -59,11 +59,11 @@ This cookbook is tested on the following platforms:
 
 ### Resources
 
-The `gr_redis_source_installation` and `gr_redis_configuration` resources can be included in your cookbook. Examples can be found in the `redis_test` cookbook (`test/cookbooks/redis_test/recipes/default.rb`).
+The `gr_redis_source_installation` and `gr_redis_instance` resources can be included in your cookbook. Examples can be found in the `redis_test` cookbook (`test/cookbooks/redis_test/recipes/default.rb`).
 
 ### Recipe
 
-The `gr_redis::default` recipe simply calls the `gr_redis_source_installation` and `gr_redis_configuration` resources to create a single Redis instance. Attributes for port, version and SHA256 download checksum are provided for convenience.
+The `gr_redis::default` recipe simply calls the `gr_redis_source_installation` and `gr_redis_instance` resources to create a single Redis instance. Attributes for port, version and SHA256 download checksum are provided for convenience.
 
 ```ruby
 include_recipe 'gr_redis::default'

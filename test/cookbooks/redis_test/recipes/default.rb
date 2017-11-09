@@ -28,21 +28,21 @@ gr_redis_source_installation '4.0.2' do
 end
 
 # Test default redis server configuration on default port
-gr_redis_configuration '6379' do
+gr_redis_instance '6379' do
   action :create
 end
 
 # Test second redis server configuration on non-default port with auth
-gr_redis_configuration '6380' do
+gr_redis_instance '6380' do
   requirepass 'iloverandompasswordsbutthiswilldo'
   action :create
 end
 
-# gr_redis_configuration '6379' do
+# gr_redis_instance '6379' do
 #   action :remove
 # end
 #
-# gr_redis_configuration '6380' do
+# gr_redis_instance '6380' do
 #   action :remove
 # end
 #
