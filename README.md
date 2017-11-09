@@ -10,7 +10,9 @@ This cookbook provides resources to install Redis from source and create instanc
 
 This cookbook is tested on the following platforms:
 - Ubuntu 16.04
+- Debian 9
 - CentOS 7
+- Fedora 26
 
 ### Chef
 
@@ -86,6 +88,7 @@ KITCHEN_LOCAL_YAML=.kitchen.dokken.yml chef exec kitchen test
 ```
 
 ## Known Limitations
+- The cookbook currently assumes systemd is init.
 - The cookbook currently assumes that only one version of Redis will be installed on a node and used for all Redis instances.
 - The cookbook currently only has configuration properties for a subset for the available options in `redis.conf`.
 - The cookbook currently does not configure [redis-sentinel](https://redis.io/topics/sentinel) or [cluster mode](https://redis.io/topics/cluster-tutorial).
