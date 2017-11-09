@@ -1,0 +1,4 @@
+- port: 6379
+  password: ''
+- port: 6380
+  password: 'iloverandompasswordsbutthiswilldo'
