@@ -2,7 +2,7 @@
 
 This file is used to list changes made in each version of the gr_redis cookbook.
 
-## v1.0.0 (2017-09-09)
+## v1.0.0 (2017-11-09)
 
 - Initial release
 - Added custom resources for installation from source and instance configuration
