@@ -1,8 +1,4 @@
-# port = attribute('port', default: '6379', description: 'REDISPORT to test')
-# password = attribute('password', default: '', description: 'A value for the password')
-# redis_instances = yaml(content: inspec.profile.file('instances.yml')).params
-
-redis_instances = yaml(content: File.read('test/smoke/default/files/instances.yml')).params
+redis_instances = attribute('instances', default: [], description: 'An array of redis instance port and passwords')
 
 redis_instances.each do |instance|
   control "redis-2-instance-#{instance['port']}" do
