@@ -22,8 +22,8 @@ apt_update 'apt_update' do
   action :periodic
 end
 
-gr_redis_source_installation '4.0.2' do
-  checksum 'b1a0915dbc91b979d06df1977fe594c3fa9b189f1f3d38743a2948c9f7634813'
+gr_redis_source_installation node['gr_redis']['version'] do
+  checksum node['gr_redis']['checksum']
   action :create
 end
 
