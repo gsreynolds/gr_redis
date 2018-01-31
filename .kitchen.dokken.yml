@@ -11,23 +11,23 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
-- name: ubuntu-16.04
+- name: dokken-ubuntu-16.04
   driver:
     image: dokken/ubuntu-16.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-- name: debian-9
+- name: dokken-debian-9
   driver:
     image: dokken/debian-9
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-- name: centos-7
+- name: dokken-centos-7
   driver:
     image: dokken/centos-7
     pid_one_command: /usr/lib/systemd/systemd
-- name: fedora-26
+- name: dokken-fedora-26
   driver:
     image: dokken/fedora-26
     pid_one_command: /usr/lib/systemd/systemd
