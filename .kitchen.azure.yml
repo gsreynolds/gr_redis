@@ -1,0 +1,24 @@
+---
+driver:
+  name: azurerm
+
+driver_config:
+  subscription_id: <%= ENV["AZURE_SUBSCRIPTION_ID"] %>
+  location: 'North Europe'
+  machine_size: 'Standard_D1'
+  azure_resource_group_prefix: <%= ENV["USERNAME"] %>
+
+transport:
+  ssh_key: <%= ENV["SSH_KEY"] %>
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: az-ubuntu-16.04
+    driver_config:
+      image_urn: Canonical:UbuntuServer:16.04-LTS:latest
+      vm_name: xenial-vm
+      vm_tags:
+        ostype: linux
+        distro: ubuntu
