@@ -1,0 +1,12 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: <%= ENV["AWS_SSH_KEY_ID"] %>
+  region: eu-west-1
+  instance_type: t2.medium
+
+transport:
+  ssh_key: ~/.ssh/<%= ENV["AWS_SSH_KEY_ID"] %>
+
+platforms:
+  - name: ubuntu-16.04
