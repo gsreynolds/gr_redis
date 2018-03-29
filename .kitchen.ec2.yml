@@ -4,6 +4,12 @@ driver:
   aws_ssh_key_id: <%= ENV["AWS_SSH_KEY_ID"] %>
   region: eu-west-1
   instance_type: t2.medium
+  tags:
+    X-Contact: <%= ENV['USER'] %>
+    X-Application: "Test-Kitchen"
+    X-Customer: "Test-Kitchen"
+    X-Project: "Test-Kitchen"
+    X-TTL: '4'
 
 transport:
   ssh_key: ~/.ssh/<%= ENV["AWS_SSH_KEY_ID"] %>
