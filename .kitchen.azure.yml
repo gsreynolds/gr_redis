@@ -17,9 +17,6 @@ driver_config:
 transport:
   ssh_key: <%= ENV["SSH_KEY"] %>
 
-provisioner:
-  name: chef_zero
-
 platforms:
   - name: az-ubuntu-16.04
     driver_config:

@@ -9,6 +9,8 @@ transport:
 provisioner:
   name: dokken
   deprecations_as_errors: true
+  enforce_idempotency: true
+  multiple_converge: 2
 
 platforms:
 - name: dokken-ubuntu-16.04
