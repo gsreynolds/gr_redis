@@ -7,8 +7,6 @@ long_description 'Installs/Configures Redis'
 version '1.0.0'
 chef_version '>= 12.5' if respond_to?(:chef_version)
 
-depends 'build-essential'
-
 supports 'debian'
 supports 'ubuntu'
 supports 'redhat'
