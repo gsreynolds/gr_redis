@@ -1,6 +1,6 @@
 default_action :create
 
-property :port, String, required: true, name_property: true
+property :port, String, name_property: true
 property :bind, String, default: '127.0.0.1'
 property :config_dir, String, default: '/etc/redis'
 property :data_dir_prefix, String, default: '/var/lib/redis'

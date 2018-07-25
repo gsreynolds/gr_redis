@@ -1,6 +1,6 @@
 default_action :create
 
-property :version, String, required: true, name_property: true
+property :version, String, name_property: true
 property :checksum, String, required: true
 property :install_root_prefix, String, default: '/opt/redis'
 property :download_source, String, default: 'http://download.redis.io/releases'
