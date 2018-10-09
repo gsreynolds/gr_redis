@@ -65,12 +65,17 @@ The `gr_redis_source_installation` and `gr_redis_instance` resources can be incl
 
 Examples can be found in the `redis_test` cookbook (`test/cookbooks/redis_test/recipes/default.rb`).
 
-### Recipe
+An example of how to
 
-The `gr_redis::default` recipe simply calls the `gr_redis_source_installation` and `gr_redis_instance` resources to create a single Redis instance. Attributes for port, version and SHA256 download checksum are provided for convenience.
+- Install the Redis server
+- Create a Redis instance
 
 ```ruby
-include_recipe 'gr_redis::default'
+gr_redis_source_installation '4.0.11' do
+  checksum 'fc53e73ae7586bcdacb4b63875d1ff04f68c5474c1ddeda78f00e5ae2eed1bbb'
+end
+
+gr_redis_instance '6379'
 ```
 
 ## Testing
