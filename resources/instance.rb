@@ -101,6 +101,11 @@ action :remove do
     action [:stop, :disable]
   end
 
+  file instance_env_file do
+    sensitive true
+    action :delete
+  end
+
   file instance_service_unit do
     notifies :run, 'execute[systemctl-daemon-reload]', :immediately
     action :delete
