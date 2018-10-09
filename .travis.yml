@@ -31,8 +31,8 @@ before_script:
   - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
 
-# Alternatively without using Travis matrix: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml /opt/chefdk/bin/chef exec delivery local acceptance
-script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+# Alternatively without using Travis matrix: KITCHEN_LOCAL_YAML=kitchen.dokken.yml /opt/chefdk/bin/chef exec delivery local acceptance
+script: KITCHEN_LOCAL_YAML=kitchen.dokken.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
 
 matrix:
   include:
