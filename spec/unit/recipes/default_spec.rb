@@ -36,7 +36,7 @@ describe 'gr_redis::default' do
     end
 
     it 'creates gr redis source installation' do
-      expect(chef_run).to create_gr_redis_source_installation('4.0.2')
+      expect(chef_run).to create_gr_redis_source_installation('4.0.11')
     end
 
     it 'creates gr redis configuration' do

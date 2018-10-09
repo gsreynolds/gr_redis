@@ -1,2 +1,2 @@
-default['gr_redis']['version'] = '4.0.2'
-default['gr_redis']['checksum'] = 'b1a0915dbc91b979d06df1977fe594c3fa9b189f1f3d38743a2948c9f7634813'
+default['gr_redis']['version'] = '4.0.11'
+default['gr_redis']['checksum'] = 'fc53e73ae7586bcdacb4b63875d1ff04f68c5474c1ddeda78f00e5ae2eed1bbb'

@@ -1,4 +1,4 @@
-version = attribute('version', default: '4.0.2', description: 'Redis version')
+version = attribute('version', default: '4.0.11', description: 'Redis version')
 
 control 'redis-1-installation' do
   title 'Redis Server: Installation from source'
@@ -21,7 +21,7 @@ control 'redis-1-installation' do
     end
   end
 
-  # describe bash('cd /opt/redis/redis-4.0.2 && make test') do
+  # describe bash('cd /opt/redis/redis-4.0.11 && make test') do
   #   its('exit_status') { should eq 0 }
   #   its(:stdout) { should match '\o/ All tests passed without errors!' }
   # end

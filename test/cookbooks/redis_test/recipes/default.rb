@@ -46,7 +46,7 @@ end
 #   action :remove
 # end
 #
-# gr_redis_source_installation '4.0.2' do
+# gr_redis_source_installation '4.0.11' do
 #   action :remove
 # end
 
