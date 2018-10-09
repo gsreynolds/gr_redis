@@ -1,9 +1,9 @@
 ---
 driver:
   name: ec2
-  aws_ssh_key_id: <%= ENV["AWS_SSH_KEY_ID"] %>
   region: eu-west-1
-  instance_type: t2.medium
+  instance_type: t2.xlarge
+  shared_credentials_profile: solutions-architects
   tags:
     X-Contact: <%= ENV['USER'] %>
     X-Application: "Test-Kitchen"
