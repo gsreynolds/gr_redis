@@ -12,7 +12,7 @@ driver:
 driver_config:
   subscription_id: <%= ENV["AZURE_SUBSCRIPTION_ID"] %>
   location: 'North Europe'
-  machine_size: 'Standard_D1'
+  machine_size: 'Standard_D2s_v3'
 
 transport:
   ssh_key: <%= ENV["SSH_KEY"] %>
