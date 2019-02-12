@@ -18,29 +18,42 @@
 
 require 'spec_helper'
 
-describe 'redis_test::default' do
-  context 'When all attributes are default, on an Ubuntu 16.04' do
-    let(:chef_run) do
-      # for a complete list of available platforms and versions see:
-      # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
-      runner = ChefSpec::ServerRunner.new(platform: 'ubuntu',
-                                          version: '16.04',
-                                          step_into: %w(gr_redis_source_installation
-                                                        gr_redis_instance)
-                                         )
-      runner.converge(described_recipe)
+describe 'gr_redis_source_installation' do
+  # Normally ChefSpec skips running resources, but for this test we want to
+  # actually run this one custom resource.
+  step_into :gr_redis_source_installation
+  # Nothing in this test is platform-specific, so use the latest Ubuntu for
+  # simulated data.
+  platform 'ubuntu'
+
+  # Create an example group for testing the resource defaults.
+  context 'with the defaults' do
+    # Set the subject of this example group to a snippet of recipe code calling
+    # our custom resource.
+    recipe do
+      gr_redis_source_installation '4.0.11' do
+        checksum 'blah'
+      end
     end
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
+    # Confirm that the resources created by our custom resource's action are
+    # correct. ChefSpec matchers all take the form `action_type(name)`.
+    it { is_expected.to create_remote_file('/opt/redis/redis-4.0.11.tar.gz') }
+  end
+
+  # # Create a second example group to test a different block of recipe code.
+  context 'with a different version and install root' do
+    # Set the subject of this example group to a snippet of recipe code calling
+    # our custom resource.
+    recipe do
+      gr_redis_source_installation '4.9.0' do
+        checksum 'blah'
+        install_root_prefix '/usr/local/redis'
+      end
     end
 
-    it 'creates gr redis source installation' do
-      expect(chef_run).to create_gr_redis_source_installation('4.0.11')
-    end
-
-    it 'creates gr redis configuration' do
-      expect(chef_run).to create_gr_redis_instance('6379')
-    end
+    # Confirm that the resources created by our custom resource's action are
+    # correct. ChefSpec matchers all take the form `action_type(name)`.
+    it { is_expected.to create_remote_file('/usr/local/redis/redis-4.9.0.tar.gz') }
   end
 end
