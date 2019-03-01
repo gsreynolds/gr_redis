@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 require 'chefspec'
-require 'chefspec/berkshelf'
+require 'chefspec/policyfile'
 
 # at_exit { ChefSpec::Coverage.report! }
