@@ -10,8 +10,7 @@ name 'gr_redis'
 default_source :supermarket
 
 # run_list: chef-client will run these recipes in the order specified.
-run_list 'redis_test::default'
+run_list 'gr_redis::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'redis_test', path: './test/cookbooks/redis_test'
 cookbook 'gr_redis', path: '.'

@@ -25,6 +25,4 @@ suites:
     verifier:
       inspec_tests:
         - test/smoke/default
-      attrs:
-        - test/smoke/default/files/instances.yml
     attributes:

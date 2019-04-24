@@ -13,5 +13,7 @@ supports 'redhat'
 supports 'centos'
 supports 'fedora'
 
+depends 'habitat'
+
 issues_url 'https://github.com/gsreynolds/gr_redis/issues'
 source_url 'https://github.com/gsreynolds/gr_redis'

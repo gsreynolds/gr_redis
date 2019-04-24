@@ -1,7 +1,0 @@
-name 'redis_test'
-maintainer 'Gavin Reynolds'
-maintainer_email 'gsreynolds@gmail.com'
-license 'Apache-2.0'
-description 'Installs/Configures redis_test'
-version '0.1.0'
-depends 'gr_redis'
