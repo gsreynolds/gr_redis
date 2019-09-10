@@ -18,9 +18,9 @@ transport:
   ssh_key: <%= ENV["SSH_KEY"] %>
 
 platforms:
-  - name: az-ubuntu-16.04
+  - name: az-ubuntu-18.04
     driver_config:
-      image_urn: Canonical:UbuntuServer:16.04-LTS:latest
+      image_urn: Canonical:UbuntuServer:18.04-LTS:latest
       vm_name: xenial-vm
       vm_tags:
         ostype: linux

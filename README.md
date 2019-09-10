@@ -9,7 +9,7 @@ This cookbook provides resources to install Redis from source and create instanc
 ### Platforms
 
 This cookbook is tested on the following platforms:
-- Ubuntu 16.04
+- Ubuntu 18.04
 - Debian 9
 - CentOS 7
 - Fedora 26

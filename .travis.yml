@@ -19,7 +19,7 @@ services: docker
 
 env:
   matrix:
-  - INSTANCE=default-dokken-ubuntu-1604
+  - INSTANCE=default-dokken-ubuntu-1804
   - INSTANCE=default-dokken-debian-9
   - INSTANCE=default-dokken-centos-7
   - INSTANCE=default-dokken-fedora-26
