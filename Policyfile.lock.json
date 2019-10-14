@@ -1,0 +1,83 @@
+{
+  "revision_id": "3d2baecc1d026589bdc96aa3c398b6be039eece61881ecd1b53e1adba0b3bf31",
+  "name": "gr_redis",
+  "run_list": [
+    "recipe[redis_test::default]"
+  ],
+  "included_policy_locks": [
+
+  ],
+  "cookbook_locks": {
+    "gr_redis": {
+      "version": "1.0.0",
+      "identifier": "9d166d849edc4b8728c6adcadd039e9b4d360adc",
+      "dotted_decimal_identifier": "44216230975822923.38043955640327427.174389852506844",
+      "source": ".",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:gsreynolds/gr_redis.git",
+        "revision": "3d1a251dd56ec688a4264cfd6da753e9b9038cd7",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "."
+      }
+    },
+    "redis_test": {
+      "version": "0.1.0",
+      "identifier": "b5c031c8cac672ac2a0be8010359b885ad263ad5",
+      "dotted_decimal_identifier": "51158290839291506.48459926619620185.202884275124949",
+      "source": "test/cookbooks/redis_test",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:gsreynolds/gr_redis.git",
+        "revision": "3d1a251dd56ec688a4264cfd6da753e9b9038cd7",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "test/cookbooks/redis_test"
+      }
+    }
+  },
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "gr_redis",
+        ">= 0.0.0"
+      ],
+      [
+        "redis_test",
+        ">= 0.0.0"
+      ]
+    ],
+    "dependencies": {
+      "gr_redis (1.0.0)": [
+
+      ],
+      "redis_test (0.1.0)": [
+        [
+          "gr_redis",
+          ">= 0.0.0"
+        ]
+      ]
+    }
+  }
+}
